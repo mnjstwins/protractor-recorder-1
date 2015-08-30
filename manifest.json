@@ -1,0 +1,7 @@
+{
+  "name": "Protractor Recorder",
+  "version": "0.0.1",
+  "description": "Extends the Developer Tools, adding the Protractor Recorder sidebar.",
+  "devtools_page": "devtools.html",
+  "manifest_version": 2
+}
