@@ -34,13 +34,45 @@ var page = {
             return getUniqSelector(target.parentNode) + '>' + target.tagName;
         };
 
+        var currentLocation = window.location.hash;
+        var output = function (selector, eventName, options) {
+            var options = options || {};  //options ||= {};
+            var result = {
+                    'event': eventName,
+                    'selector': 'element(by.css(\'' + selector + '\')',
+                    'previous_url': currentLocation,
+                    'current_url': (currentLocation = window.location.hash)
+                };
+
+            // Extend output with additional information
+            for (var key in options) {
+                if (options.hasOwnProperty(key)) {
+                    result[key] = options[key];
+                }
+            }
+
+            return result;
+        };
+
         var listeners = {
             click: function (e) {
                 //inspect(e.target);
 
-                console.log(
-                    'element(by.css(\'' + getUniqSelector(e.target) + '\').click()'
-                );
+                var options = {};
+
+                // @todo This can be strongly improved
+                if (e.target.attributes['ng-href']) {
+                  options['ng-href'] = e.target.attributes['ng-href'].value;
+                }
+                else if (e.target.attributes['ng-click']) {
+                  options['ng-click'] = e.target.attributes['ng-click'].value;
+                }
+
+                console.table([ output(getUniqSelector(e.target), 'click()', options) ]);
+
+                // console.log(
+                //     'element(by.css(\'' + getUniqSelector(e.target) + '\').click()'
+                // );
             }
         }
 
